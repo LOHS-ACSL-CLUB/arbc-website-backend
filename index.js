@@ -43,37 +43,35 @@ app.use(bodyParser.json());
 
 app.use(express.static("public"));
 
-// Route to handle the form submission
-app.post("/new", (req, res) => {
-  const {
-    schoolName,
-    firstName,
-    lastName,
-    grade,
-    email,
-    password,
-    city,
-  } = req.body;
+app.post("/new", async (req, res) => {
+    const { schoolName, firstName, lastName, grade, email, password, city } =
+        req.body;
 
-  // Create a new member document
-  const newMember = new Member({
-    schoolName,
-    firstName,
-    lastName,
-    grade,
-    email,
-    password,
-    city,
-  });
+    // Create a new member document
+    const newMember = new Member({
+        schoolName,
+        firstName,
+        lastName,
+        grade,
+        email,
+        password,
+        city,
+    });
 
-  // Save the member document to the database
-  newMember.save((err) => {
-    if (err) {
-      res.status(500).send("Error saving member");
-    } else {
-      res.status(200).send("Member created successfully");
+    // Save the member document to the database
+    //   newMember.save((err) => {
+    //     if (err) {
+    //       res.status(500).send("Error saving member");
+    //     } else {
+    //       res.status(200).send("Member created successfully");
+    //     }
+    //   });
+    try {
+        await newMember.save();
+        res.status(200).send("Member created successfully");
+    } catch (err) {
+        res.status(500).send("Error saving member");
     }
-  });
 });
 
 
