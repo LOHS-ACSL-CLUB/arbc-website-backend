@@ -28,12 +28,8 @@ const memberSchema = new mongoose.Schema({
 
 const Member = mongoose.model("Member", memberSchema);
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
 const corsOptions = {
-  origin: "https://backend-dtjy.vercel.app/", // Replace with your front-end domain
+  origin: "*", // Replace with your front-end domain
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
@@ -41,6 +37,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // Use the cors middleware with the specified options
 // Serve static files (e.g., HTML forms)
+// Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 app.use(express.static("public"));
 
 // Route to handle the form submission
