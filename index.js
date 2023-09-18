@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose"
 import bodyParser from "body-parser";
-import cors = from "cors"; // Import the cors middleware
+import cors from "cors"; // Import the cors middleware
 
 const app = express();
 
