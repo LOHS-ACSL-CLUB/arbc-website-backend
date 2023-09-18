@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose"
 import bodyParser from "body-parser";
+import cors = from "cors"; // Import the cors middleware
 
 const app = express();
 
@@ -31,6 +32,14 @@ const Member = mongoose.model("Member", memberSchema);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const corsOptions = {
+  origin: "https://backend-dtjy.vercel.app/", // Replace with your front-end domain
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions)); // Use the cors middleware with the specified options
 // Serve static files (e.g., HTML forms)
 app.use(express.static("public"));
 
