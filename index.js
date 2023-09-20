@@ -24,6 +24,7 @@ const memberSchema = new mongoose.Schema({
   email: String,
   password: String,
   city: String,
+  phone: String,
 });
 
 const Member = mongoose.model("Member", memberSchema);
@@ -56,6 +57,7 @@ app.post("/new", async (req, res) => {
         email,
         password,
         city,
+        phone,
     });
 
     // Save the member document to the database
