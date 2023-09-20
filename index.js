@@ -2,12 +2,22 @@ import express from "express";
 import mongoose from "mongoose"
 import bodyParser from "body-parser";
 import cors from "cors"; // Import the cors middleware
+import bcrypt from "bcrypt";
 
 const app = express();
 
 const mongo_username = 'arbcsoutherncal'
 const mongo_password = 'losososnumber1'
-const uri = `mongodb+srv://arbcsoutherncal:${mongo_password}@registration.axuxdls.mongodb.net/?retryWrites=true&w=majority`;
+const salt_rounds = 10;
+
+bcrypt.hash(mongo_password, saltRounds, (err, hashedPassword) => {
+  if (err) {
+    console.error('Error hashing password:', err);
+    return;
+  }
+
+
+const uri = `mongodb+srv://arbcsoutherncal:${hashedPassword}@registration.axuxdls.mongodb.net/?retryWrites=true&w=majority`;
 
 // Connect to MongoDB
 mongoose.connect(uri, {
