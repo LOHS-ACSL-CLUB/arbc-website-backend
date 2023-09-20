@@ -45,7 +45,7 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 
 app.post("/new", async (req, res) => {
-    const { schoolName, firstName, lastName, grade, email, password, city } =
+    const { schoolName, firstName, lastName, grade, email, password, city, phone } =
         req.body;
 
     // Create a new member document
