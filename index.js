@@ -14,7 +14,7 @@ bcrypt.hash(mongo_password, saltRounds, (err, hashedPassword) => {
   if (err) {
     console.error('Error hashing password:', err);
     return;
-  }
+  });
 
 
 const uri = `mongodb+srv://arbcsoutherncal:${hashedPassword}@registration.axuxdls.mongodb.net/?retryWrites=true&w=majority`;
