@@ -11,9 +11,10 @@ const mongo_password = 'losososnumber1'
 const salt_rounds = 10;
 
 bcrypt.hash(mongo_password, saltRounds, (err, hashedPassword) => {
-  if (err) {
-    console.error('Error hashing password:', err);
-    return;
+    if (err) {
+      console.error('Error hashing password:', err);
+      return;
+    }
   });
 
 
