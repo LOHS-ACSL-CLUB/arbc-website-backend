@@ -1,50 +1,45 @@
 import express from "express";
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors"; // Import the cors middleware
-import bcrypt from "bcrypt";
+import "dotenv/config";
 
 const app = express();
 
-const mongo_username = 'arbcsoutherncal'
-const mongo_password = 'losososnumber1'
-const salt_rounds = 10;
+// bcrypt.hash(mongo_password, salt_rounds, (err, hashedPassword) => {
+//     if (err) {
+//       console.error('Error hashing password:', err);
+//       return;
+//     }
+//   });
 
-bcrypt.hash(mongo_password, salt_rounds, (err, hashedPassword) => {
-    if (err) {
-      console.error('Error hashing password:', err);
-      return;
-    }
-  });
-
-
-const uri = `mongodb+srv://arbcsoutherncal:${hashedPassword}@registration.axuxdls.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://arbcsoutherncal:${process.env.MONGO_PASSWORD}@registration.axuxdls.mongodb.net/?retryWrites=true&w=majority`;
 
 // Connect to MongoDB
 mongoose.connect(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 
 // Define a MongoDB schema and model
 const memberSchema = new mongoose.Schema({
-  schoolName: String,
-  firstName: String,
-  lastName: String,
-  grade: String,
-  email: String,
-  password: String,
-  city: String,
-  phone: String,
+    schoolName: String,
+    firstName: String,
+    lastName: String,
+    grade: String,
+    email: String,
+    password: String,
+    city: String,
+    phone: String,
 });
 
 const Member = mongoose.model("Member", memberSchema);
 
 const corsOptions = {
-  origin: "*", // Replace with your front-end domain
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  optionsSuccessStatus: 204,
+    origin: "*", // Replace with your front-end domain
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    optionsSuccessStatus: 204,
 };
 
 app.use(cors(corsOptions)); // Use the cors middleware with the specified options
@@ -56,8 +51,16 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 
 app.post("/new", async (req, res) => {
-    const { schoolName, firstName, lastName, grade, email, password, city, phone } =
-        req.body;
+    const {
+        schoolName,
+        firstName,
+        lastName,
+        grade,
+        email,
+        password,
+        city,
+        phone,
+    } = req.body;
 
     // Create a new member document
     const newMember = new Member({
@@ -72,24 +75,17 @@ app.post("/new", async (req, res) => {
     });
 
     // Save the member document to the database
-    //   newMember.save((err) => {
-    //     if (err) {
-    //       res.status(500).send("Error saving member");
-    //     } else {
-    //       res.status(200).send("Member created successfully");
-    //     }
-    //   });
     try {
         await newMember.save();
         res.status(200).send("Member created successfully");
+        console.log("Request handled successfully");
     } catch (err) {
         res.status(500).send("Error saving member");
     }
 });
 
-
-const port = 9000
+const port = 9000;
 // Start the server
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${port}`);
 });
