@@ -20,10 +20,16 @@ const memberSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
     grade: String,
-    email: String,
+    email: {
+        type: String,
+        unique: true,
+    },
     password: String,
     city: String,
-    phone: String,
+    phone: {
+        type: String,
+        unique: true,
+    }
 });
 
 const Member = mongoose.model("Member", memberSchema);
@@ -73,7 +79,11 @@ app.post("/new", async (req, res) => {
         res.status(200).send("Member created successfully");
         console.log("Request handled successfully");
     } catch (err) {
-        res.status(500).send("Error saving member");
+        if (err.code === 11000 && (err.keyPattern.email || err.keyPattern.phone)) {
+            res.status(400).send("Email address already exists.");
+        } else {
+            res.status(500).send("Error saving member");
+        }
     }
 });
 
