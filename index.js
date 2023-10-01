@@ -79,7 +79,7 @@ app.post("/new", async (req, res) => {
         res.status(200).send("Member created successfully");
         console.log("Request handled successfully");
     } catch (err) {
-        if (err.code === 11000 && (err.keyPattern.email) {
+        if (err.code === 11000 && (err.keyPattern.email)) {
             res.status(400).send("Email address already used.");
         }
         else if (err.code === 11000 && (err.keyPattern.phone)) {
@@ -135,13 +135,13 @@ app.post("/team", async (req, res) => {
             await newTeam.save();
             res.status(200).send("Team created successfully");
         } catch (err) {
-            if (err.code === 11000 && (err.keyPattern.teamName) {
+            if (err.code === 11000 && (err.keyPattern.teamName)) {
                 res.status(400).send("Team name already exist.");
             }
-            else if (err.code === 11000 && (err.keyPattern.pointOfContactEmail) {
+            else if (err.code === 11000 && (err.keyPattern.pointOfContactEmail)) {
                 res.status(400).send("Point of Contact Email already used.");
             }
-            else if (err.code === 11000 && (err.keyPattern.pointOfContactPhone) {
+            else if (err.code === 11000 && (err.keyPattern.pointOfContactPhone)) {
                 res.status(400).send("Point of Contact Number already used.");
             }
             else {
